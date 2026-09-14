@@ -348,7 +348,7 @@ button { font-family: inherit; }
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--frame-color);
   box-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent);
   flex-shrink: 0;
 }
@@ -356,7 +356,7 @@ button { font-family: inherit; }
 .flank-rule {
   flex-grow: 1;
   height: 1px;
-  background: var(--accent);
+  background: var(--frame-color);
   box-shadow: 0 0 4px var(--accent);
 }
 

@@ -59,7 +59,7 @@ button { font-family: inherit; }
   height: 100%;
   overflow: visible;
   color: var(--frame-color);
-  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 10px var(--accent));
+  filter: drop-shadow(0 0 8px var(--accent));
   pointer-events: none;
 }
 
@@ -268,7 +268,7 @@ button { font-family: inherit; }
 .hotspot-frame {
   position: relative;
   width: clamp(120px, 15vw, 260px);
-  aspect-ratio: 1618 / 530;
+  aspect-ratio: 1618 / 491;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,7 +283,7 @@ button { font-family: inherit; }
   height: 100%;
   overflow: visible;
   color: var(--frame-color);
-  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 32px var(--accent));
+  filter: drop-shadow(0 0 10px var(--accent));
 }
 
 .hotspot-title {
@@ -391,7 +391,7 @@ button { font-family: inherit; }
   aspect-ratio: 1878.33 / 511.64;
   height: auto;
   color: var(--frame-color);
-  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 18px var(--accent)) drop-shadow(0 0 40px var(--accent));
+  filter: drop-shadow(0 0 14px var(--accent));
 }
 
 .hero-card-body {
@@ -554,7 +554,7 @@ button { font-family: inherit; }
   height: 100%;
   overflow: visible;
   color: var(--frame-color);
-  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 10px var(--accent));
+  filter: drop-shadow(0 0 8px var(--accent));
   transition: filter 0.2s;
 }
 
@@ -569,7 +569,7 @@ button { font-family: inherit; }
 
 .nav-chip:hover .nav-chip-bracket,
 .nav-chip:focus-visible .nav-chip-bracket {
-  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 18px var(--accent));
+  filter: drop-shadow(0 0 12px var(--accent));
 }
 
 @media (max-width: 700px) {

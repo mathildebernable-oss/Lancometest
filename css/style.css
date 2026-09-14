@@ -1,7 +1,6 @@
 :root {
   --accent: #fc8385;
-  --panel-bg: rgba(20, 4, 6, 0.35);
-  --panel-border: rgba(252, 131, 133, 0.9);
+  --frame-color: #ffffff;
   --glow: 0 0 12px rgba(252, 131, 133, 0.55), 0 0 32px rgba(252, 131, 133, 0.25);
   --text-glow: 0 0 6px rgba(252, 131, 133, 0.9), 0 0 16px rgba(252, 131, 133, 0.6), 0 0 30px rgba(252, 131, 133, 0.35);
   --text-primary: #ffffff;
@@ -24,6 +23,137 @@ html, body {
   color: var(--text-primary);
   font-family: var(--font);
   overscroll-behavior-y: none;
+}
+
+button { font-family: inherit; }
+
+/* ---------------------------------------------------------------- */
+/* TOOLBAR — langue + format d'aperçu, toujours ancrée au viewport  */
+/* ---------------------------------------------------------------- */
+
+.toolbar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 16px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.toolbar > * { pointer-events: auto; }
+
+.toolbar-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(20, 4, 6, 0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 9px 30px 9px 16px;
+  cursor: pointer;
+}
+
+.toolbar-select:hover,
+.toolbar-select:focus-visible { border-color: var(--accent); }
+
+.toolbar-select-chevron {
+  position: absolute;
+  right: 14px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.toolbar-devices {
+  display: flex;
+  gap: 6px;
+  background: rgba(20, 4, 6, 0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.toolbar-device {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.toolbar-device:hover { background: rgba(255, 255, 255, 0.1); }
+
+.toolbar-device.is-active {
+  background: #ffffff;
+  color: #1a1014;
+}
+
+.toolbar-device.is-active:hover { background: #ffffff; }
+
+/* ---------------------------------------------------------------- */
+/* PAGE FRAME — simule le format choisi (tablette / mobile = cadre  */
+/* centré ; desktop = plein écran réel).                            */
+/* ---------------------------------------------------------------- */
+
+.page-frame {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  transition: max-width 0.35s ease;
+}
+
+.page-frame[data-device="tablet"] {
+  max-width: 834px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+.page-frame[data-device="mobile"] {
+  max-width: 390px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 40px 100px rgba(0, 0, 0, 0.6);
+}
+
+/* .hero-card et .detail-view sont `position: fixed` (pour rester
+   pinnés au viewport pendant le scroll) donc en dehors du flux de
+   .page-frame : on leur applique la même largeur simulée ici, en
+   les recentrant avec margin auto. */
+.page-frame[data-device="tablet"] .hero-card,
+.page-frame[data-device="tablet"] .detail-view {
+  max-width: 834px;
+  margin: 0 auto;
+}
+
+.page-frame[data-device="mobile"] .hero-card,
+.page-frame[data-device="mobile"] .detail-view {
+  max-width: 390px;
+  margin: 0 auto;
 }
 
 /* ---------------------------------------------------------------- */
@@ -49,15 +179,14 @@ html, body {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   display: block;
   background: #0d0708;
 }
 
 /* Repositionné en JS pour épouser exactement le rectangle visible
-   de la vidéo (letterboxing dû à object-fit: contain), afin que les
-   pourcentages top/left des hotspots restent alignés sur l'image
-   à n'importe quelle taille d'écran. */
+   de la vidéo, afin que les pourcentages top/left des hotspots
+   restent alignés sur l'image à n'importe quelle taille d'écran. */
 .hotspot-layer {
   position: absolute;
   top: 0;
@@ -73,7 +202,10 @@ html, body {
   flex-direction: column;
   align-items: center;
   transform: translate(-50%, -100%);
-  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
   color: var(--text-primary);
   opacity: 0;
   pointer-events: none;
@@ -83,12 +215,7 @@ html, body {
 
 .hotspot:hover .hotspot-frame,
 .hotspot:focus-visible .hotspot-frame {
-  filter: brightness(1.25);
-}
-
-.hotspot:hover .hotspot-bracket,
-.hotspot:focus-visible .hotspot-bracket {
-  color: #ffffff;
+  filter: brightness(1.3);
 }
 
 .hotspot-frame {
@@ -108,9 +235,8 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: visible;
-  color: var(--accent);
+  color: var(--frame-color);
   filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 32px var(--accent));
-  transition: color 0.2s ease-out;
 }
 
 .hotspot-title {
@@ -172,96 +298,179 @@ html, body {
 }
 
 /* ---------------------------------------------------------------- */
-/* DESTINATIONS                                                     */
+/* HERO CARD — "Bienvenue dans le Star Sculpt Portal"                */
 /* ---------------------------------------------------------------- */
 
-.destinations {
-  background: linear-gradient(180deg, #150a0c 0%, #0d0708 100%);
+.hero-card {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8%;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.destination {
-  min-height: 70vh;
+.hero-card-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90%, 900px);
+  aspect-ratio: 1878.33 / 511.64;
+  height: auto;
+  color: var(--frame-color);
+  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 18px var(--accent)) drop-shadow(0 0 40px var(--accent));
+}
+
+.hero-card-body {
+  position: relative;
+  width: min(90%, 900px);
+  aspect-ratio: 1878.33 / 511.64;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 12vh 8vw;
-  border-bottom: 1px solid rgba(252, 131, 133, 0.15);
+  gap: clamp(6px, 1.4vh, 14px);
+  padding: 0 9%;
 }
 
-.destination-heading {
+.hero-flanked {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 2vw, 20px);
   width: 100%;
-  max-width: 560px;
+  gap: clamp(6px, 1.2vw, 16px);
 }
 
-.destination-heading .dot {
-  width: 6px;
-  height: 6px;
+.flank-dot {
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent);
   flex-shrink: 0;
 }
 
-.destination-heading .rule {
+.flank-rule {
   flex-grow: 1;
   height: 1px;
   background: var(--accent);
   box-shadow: 0 0 4px var(--accent);
 }
 
-.destination-heading h2 {
-  margin: 0;
+.hero-flanked span:not(.flank-dot):not(.flank-rule) {
   white-space: nowrap;
-  font-size: clamp(22px, 4vw, 40px);
-  font-weight: 900;
-  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  font-size: clamp(9px, 1.5vw, 18px);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.hero-title {
   color: var(--text-primary);
   text-shadow: var(--text-glow);
+  font-size: clamp(16px, 3.6vw, 44px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
-.destination-subtitle {
-  margin: 18px 0 0;
-  font-size: clamp(10px, 1.3vw, 13px);
+/* ---------------------------------------------------------------- */
+/* DETAIL VIEWS — vidéo d'explication par section, plein cadre      */
+/* ---------------------------------------------------------------- */
+
+.detail-view {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  background: #0d0708;
+  overflow: hidden;
+}
+
+.detail-view.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.detail-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 7, 8, 0.75) 0%, rgba(13, 7, 8, 0.1) 30%, rgba(13, 7, 8, 0.1) 70%, rgba(13, 7, 8, 0.8) 100%);
+}
+
+.detail-header {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 640px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.detail-header h2 {
+  margin: 0;
+  white-space: nowrap;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
+  font-size: clamp(18px, 3vw, 32px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.detail-subtitle {
+  margin: 14px 0 0;
+  color: var(--accent);
+  font-size: clamp(10px, 1.2vw, 13px);
   letter-spacing: 0.14em;
   font-weight: 700;
-  color: var(--accent);
 }
 
-.destination-text {
-  margin: 20px 0 0;
-  max-width: 480px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  font-size: clamp(14px, 1.6vw, 17px);
-  line-height: 1.6;
-  color: var(--text-secondary);
-  font-weight: 400;
-}
-
-.back-link {
-  margin-top: 32px;
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: clamp(10px, 1.1vw, 12px);
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  border: 1px solid rgba(252, 131, 133, 0.5);
-  border-radius: 4px;
-  padding: 10px 20px;
-  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
-}
-
-.back-link:hover,
-.back-link:focus-visible {
+.detail-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(20, 4, 6, 0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
   color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.detail-back:hover,
+.detail-back:focus-visible {
   border-color: var(--accent);
   box-shadow: var(--glow);
 }
 
-@media (max-width: 700px) {
-  .destination { padding: 10vh 6vw; }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint { animation: none; }
+  .page-frame, .detail-view, .hotspot, .hero-card { transition: none; }
 }

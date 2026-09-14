@@ -255,6 +255,8 @@
     fitOverlayToVideo(labVideo.parentElement, labVideo, labHoloLayer);
   }
 
+  var wasInteractive = false;
+
   var ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -299,6 +301,21 @@
     var fadeStart = 0.88;
     var fadeAmount = clamp((progress - fadeStart) / (1 - fadeStart), 0, 1);
     var interactive = progress >= 0.999;
+
+    // Court "clignotement" façon hologramme, joué une seule fois au
+    // moment précis où le couloir devient interactif — indépendant
+    // de la vitesse de scroll, pour ne jamais paraître brutal.
+    if (interactive && !wasInteractive) {
+      hotspots.forEach(function (hotspot, i) {
+        hotspot.style.animationDelay = i * 45 + "ms";
+        hotspot.classList.add("is-flickering");
+      });
+    } else if (!interactive && wasInteractive) {
+      hotspots.forEach(function (hotspot) {
+        hotspot.classList.remove("is-flickering");
+      });
+    }
+    wasInteractive = interactive;
 
     hotspots.forEach(function (hotspot) {
       hotspot.style.opacity = fadeAmount;
@@ -372,9 +389,9 @@
   });
 
   detailViews.forEach(function (view) {
-    var closeBtn = view.querySelector(".detail-back");
+    var closeBtn = view.querySelector(".nav-chip--back");
     if (closeBtn) closeBtn.addEventListener("click", closeDetail);
-    var nextBtn = view.querySelector(".detail-next");
+    var nextBtn = view.querySelector(".nav-chip--next");
     if (nextBtn) {
       nextBtn.addEventListener("click", function () {
         showDetail(NEXT_ROOM[nextBtn.getAttribute("data-next")]);

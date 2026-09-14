@@ -255,6 +255,8 @@
     fitOverlayToVideo(labVideo.parentElement, labVideo, labHoloLayer);
   }
 
+  var revealed = false;
+
   var ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -293,23 +295,36 @@
     else heroOpacity = 1 - clamp((progress - titleOutStart) / (titleOutEnd - titleOutStart), 0, 1);
     heroCard.style.opacity = heroOpacity;
 
-    // Boutons du couloir : entrent en fondu pendant que l'encart
-    // sort, ne deviennent cliquables (souris + clavier) qu'une fois
-    // la vidéo entièrement terminée.
-    var fadeStart = 0.88;
-    var fadeAmount = clamp((progress - fadeStart) / (1 - fadeStart), 0, 1);
+    // Boutons du couloir : ne deviennent cliquables (souris + clavier)
+    // qu'une fois la vidéo entièrement terminée. Leur apparition (en
+    // fondu, l'un après l'autre) est déclenchée une seule fois à cet
+    // instant précis, indépendamment du scroll — voir plus bas.
     var interactive = progress >= 0.999;
 
     hotspots.forEach(function (hotspot) {
-      hotspot.style.opacity = fadeAmount;
       hotspot.style.pointerEvents = interactive ? "auto" : "none";
       hotspot.tabIndex = interactive ? 0 : -1;
       if (interactive) hotspot.removeAttribute("aria-hidden");
       else hotspot.setAttribute("aria-hidden", "true");
     });
 
+    if (interactive && !revealed) {
+      hotspots.forEach(function (hotspot, i) {
+        hotspot.style.transitionDelay = i * 150 + "ms";
+        hotspot.classList.add("is-visible");
+      });
+      roomHint.style.transitionDelay = hotspots.length * 150 + "ms";
+      roomHint.classList.add("is-visible");
+      revealed = true;
+    } else if (!interactive && revealed) {
+      hotspots.forEach(function (hotspot) {
+        hotspot.classList.remove("is-visible");
+      });
+      roomHint.classList.remove("is-visible");
+      revealed = false;
+    }
+
     scrollHint.style.opacity = 1 - clamp(progress * 14, 0, 1);
-    roomHint.style.opacity = fadeAmount;
   }
 
   video.addEventListener("loadedmetadata", function () {

@@ -12,21 +12,6 @@
 </head>
 <body>
 
-  <!-- Mobile/tablette en portrait uniquement : bloque l'accès et
-       demande de pivoter l'écran, pour ne garder qu'un seul format
-       16:9 à gérer (plus de souci de letterbox portrait). Pur CSS
-       (media query), réagit instantanément à la rotation réelle de
-       l'appareil — n'affecte pas l'aperçu desktop/tablette/mobile
-       simulé par la barre du haut, qui ne change pas la taille du
-       vrai viewport. -->
-  <div class="rotate-overlay" id="rotate-overlay">
-    <svg class="rotate-icon" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="7" y="2" width="10" height="20" rx="2" />
-      <path d="M12 18h.01" />
-    </svg>
-    <p class="rotate-text" data-i18n="rotate">TOURNEZ VOTRE TÉLÉPHONE POUR ENTRER</p>
-  </div>
-
   <!-- Barre de contrôle — toujours ancrée au vrai viewport (pas au
        cadre simulé), pour rester accessible quel que soit le format
        d'aperçu choisi. -->
@@ -99,6 +84,15 @@
           preload="auto"
         ></video>
 
+        <!-- Calque repositionné en JS pour épouser exactement le
+             rectangle visible de la vidéo (cover en paysage, contain
+             en portrait), afin que l'encart titre, les boutons et les
+             indices restent à l'échelle et alignés sur l'image quel
+             que soit le format d'écran — jamais calés sur le plein
+             viewport, qui peut être bien plus grand/haut que la
+             vidéo réellement affichée (letterbox portrait). -->
+        <div class="video-overlay" id="video-overlay">
+
         <!-- Encart "Bienvenue" — apparaît à partir de la 3e seconde
              de la vidéo, s'efface quand la porte est ouverte et que
              les boutons prennent le relais. -->
@@ -126,9 +120,6 @@
           </div>
         </div>
 
-        <!-- Repositionné en JS pour matcher exactement le rectangle
-             visible de la vidéo (cover en paysage, contain en
-             portrait pour ne jamais recadrer les boutons hors champ). -->
         <div class="hotspot-layer" id="hotspot-layer">
           <button type="button" class="hotspot" data-key="lab" style="top:28%; left:24%;">
             <span class="hotspot-frame">
@@ -212,6 +203,8 @@
 
         <div class="room-hint" id="room-hint">
           <span id="room-hint-text">CHOISISSEZ VOTRE SALLE</span>
+        </div>
+
         </div>
 
       </div>

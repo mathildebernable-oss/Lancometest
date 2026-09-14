@@ -28,64 +28,6 @@ html, body {
 button { font-family: inherit; }
 
 /* ---------------------------------------------------------------- */
-/* ROTATE OVERLAY — mobile/tablette en portrait uniquement           */
-/* ---------------------------------------------------------------- */
-
-.rotate-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: #0d0708;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  padding: 0 12vw;
-  text-align: center;
-}
-
-/* Forcé par la barre du haut quand l'aperçu Mobile/Tablette est
-   sélectionné (ce cadre simulé ne change pas la vraie taille du
-   viewport, donc la media query seule ne suffit pas pour le
-   prévisualiser) — cliquer dessus le referme. */
-.rotate-overlay.force-preview {
-  display: flex;
-  cursor: pointer;
-}
-
-@media (max-width: 900px) and (orientation: portrait) {
-  .rotate-overlay { display: flex; }
-}
-
-.rotate-icon {
-  color: var(--frame-color);
-  filter: drop-shadow(0 0 10px var(--accent));
-  animation: rotate-phone 2.4s ease-in-out infinite;
-}
-
-@keyframes rotate-phone {
-  0%, 15% { transform: rotate(0deg); }
-  45%, 65% { transform: rotate(-90deg); }
-  85%, 100% { transform: rotate(0deg); }
-}
-
-.rotate-text {
-  margin: 0;
-  max-width: 320px;
-  color: var(--text-primary);
-  text-shadow: var(--text-glow);
-  font-size: clamp(13px, 4vw, 16px);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1.6;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rotate-icon { animation: none; }
-}
-
-/* ---------------------------------------------------------------- */
 /* TOOLBAR — langue + format d'aperçu, toujours ancrée au viewport  */
 /* ---------------------------------------------------------------- */
 
@@ -240,17 +182,16 @@ button { font-family: inherit; }
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 40px 100px rgba(0, 0, 0, 0.6);
 }
 
-/* .hero-card et .detail-view sont `position: fixed` (pour rester
-   pinnés au viewport pendant le scroll) donc en dehors du flux de
-   .page-frame : on leur applique la même largeur simulée ici, en
-   les recentrant avec margin auto. */
-.page-frame[data-device="tablet"] .hero-card,
+/* .detail-view est `position: fixed` (pour rester pinné au viewport
+   pendant le scroll) donc en dehors du flux de .page-frame : on lui
+   applique la même largeur simulée ici, en le recentrant avec margin
+   auto. .hero-card, lui, vit maintenant dans .video-overlay (dans le
+   flux normal de .stage), donc hérite déjà de la largeur simulée. */
 .page-frame[data-device="tablet"] .detail-view {
   max-width: 834px;
   margin: 0 auto;
 }
 
-.page-frame[data-device="mobile"] .hero-card,
 .page-frame[data-device="mobile"] .detail-view {
   max-width: 390px;
   margin: 0 auto;
@@ -284,15 +225,24 @@ button { font-family: inherit; }
   background: #0d0708;
 }
 
-/* Repositionné en JS pour épouser exactement le rectangle visible
-   de la vidéo, afin que les pourcentages top/left des hotspots
-   restent alignés sur l'image à n'importe quelle taille d'écran. */
+/* Repositionné en JS (left/top/width/height) pour épouser exactement
+   le rectangle visible de la vidéo (cover en paysage, contain en
+   portrait) — l'encart titre, les boutons et les indices vivent tous
+   ici et restent donc à l'échelle et alignés sur l'image quel que
+   soit le format d'écran, jamais calés sur le plein viewport qui
+   peut être bien plus grand/haut que la vidéo réellement affichée
+   (letterbox portrait). `container-type` permet aux tailles de
+   police à l'intérieur (unités cqw/cqh) de suivre la taille réelle
+   de la vidéo plutôt que celle du viewport. */
+.video-overlay {
+  position: absolute;
+  container-type: size;
+  container-name: vidrect;
+}
+
 .hotspot-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
 }
 
@@ -325,13 +275,13 @@ button { font-family: inherit; }
 
 .hotspot-frame {
   position: relative;
-  width: clamp(120px, 15vw, 260px);
+  width: clamp(78px, 15cqw, 260px);
   aspect-ratio: 1618 / 491;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 22px;
+  padding: 4% 9%;
 }
 
 .hotspot-bracket {
@@ -348,7 +298,7 @@ button { font-family: inherit; }
   position: relative;
   color: var(--text-primary);
   text-shadow: var(--text-glow);
-  font-size: clamp(10px, 1.2vw, 16px);
+  font-size: clamp(7.5px, 1.2cqw, 16px);
   font-weight: 900;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -357,23 +307,23 @@ button { font-family: inherit; }
 .hotspot-subtitle {
   position: relative;
   color: var(--text-secondary);
-  font-size: clamp(6px, 0.62vw, 8px);
+  font-size: clamp(5px, 0.62cqw, 8px);
   letter-spacing: 0.08em;
-  margin-top: 3px;
+  margin-top: 3%;
   font-weight: 600;
   white-space: nowrap;
 }
 
 .hotspot-pin {
-  width: 2.5px;
-  height: 24px;
+  width: 2px;
+  height: clamp(10px, 5cqh, 24px);
   background: var(--frame-color);
   box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
 }
 
 .hotspot-dot {
-  width: 11px;
-  height: 11px;
+  width: clamp(6px, 2.5cqh, 11px);
+  height: clamp(6px, 2.5cqh, 11px);
   border-radius: 50%;
   background: var(--frame-color);
   box-shadow: 0 0 6px var(--accent), 0 0 14px var(--accent);
@@ -381,18 +331,19 @@ button { font-family: inherit; }
 
 .scroll-hint {
   position: absolute;
-  bottom: clamp(20px, 5vh, 48px);
+  bottom: clamp(6px, 5cqh, 48px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 2%;
   color: rgba(255, 235, 238, 0.85);
   text-shadow: var(--text-glow);
-  font-size: clamp(9px, 1.1vw, 11px);
+  font-size: clamp(6.5px, 1.1cqw, 11px);
   letter-spacing: 0.18em;
   font-weight: 700;
+  white-space: nowrap;
   pointer-events: none;
   animation: hint-bob 2s ease-in-out infinite;
 }
@@ -406,12 +357,12 @@ button { font-family: inherit; }
    que les boutons du couloir. */
 .room-hint {
   position: absolute;
-  bottom: clamp(20px, 5vh, 48px);
+  bottom: clamp(6px, 5cqh, 48px);
   left: 50%;
   transform: translateX(-50%);
   color: var(--text-primary);
   text-shadow: var(--text-glow);
-  font-size: clamp(11px, 1.3vw, 15px);
+  font-size: clamp(8px, 1.3cqw, 15px);
   letter-spacing: 0.22em;
   font-weight: 700;
   white-space: nowrap;
@@ -429,9 +380,8 @@ button { font-family: inherit; }
 /* ---------------------------------------------------------------- */
 
 .hero-card {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,7 +410,7 @@ button { font-family: inherit; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(6px, 1.4vh, 14px);
+  gap: clamp(3px, 4cqh, 14px);
   padding: 0 9%;
 }
 
@@ -468,7 +418,7 @@ button { font-family: inherit; }
   display: flex;
   align-items: center;
   width: 100%;
-  gap: clamp(6px, 1.2vw, 16px);
+  gap: clamp(4px, 1.2cqw, 16px);
 }
 
 .flank-dot {
@@ -490,7 +440,7 @@ button { font-family: inherit; }
 .hero-flanked span:not(.flank-dot):not(.flank-rule) {
   white-space: nowrap;
   color: var(--text-secondary);
-  font-size: clamp(9px, 1.5vw, 18px);
+  font-size: clamp(6px, 2.2cqh, 18px);
   letter-spacing: 0.08em;
   font-weight: 500;
 }
@@ -498,7 +448,7 @@ button { font-family: inherit; }
 .hero-title {
   color: var(--text-primary);
   text-shadow: var(--text-glow);
-  font-size: clamp(16px, 3.6vw, 44px);
+  font-size: clamp(9px, 5.5cqh, 44px);
   font-weight: 900;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -655,6 +605,8 @@ button { font-family: inherit; }
   left: 0;
   width: 100%;
   height: 100%;
+  container-type: size;
+  container-name: vidrect;
   pointer-events: none;
 }
 
@@ -667,7 +619,7 @@ button { font-family: inherit; }
   white-space: nowrap;
   color: var(--text-primary);
   text-shadow: 0 0 4px rgba(252, 131, 133, 0.85), 0 0 10px rgba(252, 131, 133, 0.5);
-  font-size: clamp(5.5px, 0.58vw, 8px);
+  font-size: clamp(5px, 0.58cqw, 8px);
   font-weight: 600;
   letter-spacing: 0.1em;
   opacity: 0;

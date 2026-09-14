@@ -44,10 +44,8 @@
   </div>
 
   <!-- Cadre simulant le format choisi (desktop = plein écran réel,
-       tablette/mobile = cadre centré). `transform` sur ce conteneur
-       en fait le containing block des enfants `position: fixed`
-       (le hero-card et les vues détail restent donc bien à
-       l'intérieur du cadre simulé, pas du vrai viewport). -->
+       tablette/mobile = cadre centré, largeur reprise en CSS pour
+       les enfants `position: fixed` — hero-card et vues détail). -->
   <div class="page-frame" id="page-frame" data-device="desktop">
 
     <!-- ============================================================

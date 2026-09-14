@@ -28,6 +28,55 @@ html, body {
 button { font-family: inherit; }
 
 /* ---------------------------------------------------------------- */
+/* ROTATE OVERLAY — mobile/tablette en portrait uniquement           */
+/* ---------------------------------------------------------------- */
+
+.rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #0d0708;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 0 12vw;
+  text-align: center;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .rotate-overlay { display: flex; }
+}
+
+.rotate-icon {
+  color: var(--frame-color);
+  filter: drop-shadow(0 0 10px var(--accent));
+  animation: rotate-phone 2.4s ease-in-out infinite;
+}
+
+@keyframes rotate-phone {
+  0%, 15% { transform: rotate(0deg); }
+  45%, 65% { transform: rotate(-90deg); }
+  85%, 100% { transform: rotate(0deg); }
+}
+
+.rotate-text {
+  margin: 0;
+  max-width: 320px;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
+  font-size: clamp(13px, 4vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotate-icon { animation: none; }
+}
+
+/* ---------------------------------------------------------------- */
 /* TOOLBAR — langue + format d'aperçu, toujours ancrée au viewport  */
 /* ---------------------------------------------------------------- */
 

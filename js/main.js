@@ -5,6 +5,7 @@
     fr: {
       hero: { top: "BIENVENUE DANS LE", title: "STAR SCULPT PORTAL", bottom: "DÉCOUVREZ LE NOUVEAU MASCARA TUBING" },
       scrollHint: "SCROLL POUR ENTRER",
+      chooseRoom: "CHOISISSEZ VOTRE SALLE",
       back: "RETOUR",
       nav: {
         lab: { title: "LE LABO", subtitle: "TECH & FORMULE" },
@@ -16,6 +17,7 @@
     en: {
       hero: { top: "WELCOME TO THE", title: "STAR SCULPT PORTAL", bottom: "DISCOVER THE NEW TUBING MASCARA" },
       scrollHint: "SCROLL TO ENTER",
+      chooseRoom: "CHOOSE YOUR ROOM",
       back: "BACK",
       nav: {
         lab: { title: "THE LAB", subtitle: "TECH & FORMULA" },
@@ -27,6 +29,7 @@
     it: {
       hero: { top: "BENVENUTA NEL", title: "STAR SCULPT PORTAL", bottom: "SCOPRI IL NUOVO MASCARA TUBING" },
       scrollHint: "SCORRI PER ENTRARE",
+      chooseRoom: "SCEGLI LA TUA STANZA",
       back: "INDIETRO",
       nav: {
         lab: { title: "IL LAB", subtitle: "TECNOLOGIA & FORMULA" },
@@ -38,6 +41,7 @@
     pl: {
       hero: { top: "WITAMY W", title: "STAR SCULPT PORTAL", bottom: "ODKRYJ NOWY TUSZ TUBING" },
       scrollHint: "PRZEWIŃ, ABY WEJŚĆ",
+      chooseRoom: "WYBIERZ POKÓJ",
       back: "WSTECZ",
       nav: {
         lab: { title: "LABORATORIUM", subtitle: "TECHNOLOGIA I FORMUŁA" },
@@ -49,6 +53,7 @@
     zh: {
       hero: { top: "欢迎来到", title: "STAR SCULPT PORTAL", bottom: "探索全新管状睫毛膏" },
       scrollHint: "滚动进入",
+      chooseRoom: "选择您的房间",
       back: "返回",
       nav: {
         lab: { title: "实验室", subtitle: "科技与配方" },
@@ -60,6 +65,7 @@
     ja: {
       hero: { top: "ようこそ", title: "STAR SCULPT PORTAL", bottom: "新しいチュービングマスカラを発見" },
       scrollHint: "スクロールして入る",
+      chooseRoom: "部屋を選んでください",
       back: "戻る",
       nav: {
         lab: { title: "ラボ", subtitle: "技術と処方" },
@@ -85,6 +91,8 @@
   var hotspots = Array.prototype.slice.call(document.querySelectorAll(".hotspot"));
   var scrollHint = document.getElementById("scroll-hint");
   var scrollHintText = document.getElementById("scroll-hint-text");
+  var roomHint = document.getElementById("room-hint");
+  var roomHintText = document.getElementById("room-hint-text");
   var heroCard = document.getElementById("hero-card");
   var heroTop = document.getElementById("hero-top");
   var heroTitleText = document.getElementById("hero-title-text");
@@ -117,6 +125,7 @@
     heroTitleText.textContent = t.hero.title;
     heroBottom.textContent = t.hero.bottom;
     scrollHintText.textContent = t.scrollHint;
+    roomHintText.textContent = t.chooseRoom;
     i18nEls.forEach(function (el) {
       var value = get(t, el.getAttribute("data-i18n"));
       if (value !== null) el.textContent = value;
@@ -231,6 +240,7 @@
     });
 
     scrollHint.style.opacity = 1 - clamp(progress * 14, 0, 1);
+    roomHint.style.opacity = fadeAmount;
   }
 
   video.addEventListener("loadedmetadata", function () {

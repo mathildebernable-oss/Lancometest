@@ -162,6 +162,7 @@
   var pageFrame = document.getElementById("page-frame");
   var i18nEls = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var detailViews = Array.prototype.slice.call(document.querySelectorAll(".detail-view"));
+  var rotateOverlay = document.getElementById("rotate-overlay");
   var labVideo = document.getElementById("detail-video-lab");
   var labHoloLayer = document.getElementById("lab-holo-layer");
 
@@ -211,9 +212,28 @@
     btn.addEventListener("click", function () {
       deviceButtons.forEach(function (b) { b.classList.remove("is-active"); });
       btn.classList.add("is-active");
-      pageFrame.setAttribute("data-device", btn.getAttribute("data-device"));
+      var device = btn.getAttribute("data-device");
+      pageFrame.setAttribute("data-device", device);
       layoutHotspots();
+
+      // L'écran "tournez votre téléphone" ne réagit qu'à la vraie
+      // orientation de l'appareil (media query), pas à ce cadre
+      // simulé — donc sans ceci, choisir "Mobile"/"Tablette" ici ne
+      // le montre jamais. On force son affichage pour prévisualiser
+      // ce qu'un vrai mobile en portrait afficherait ; un clic dessus
+      // le referme pour voir le contenu simulé en dessous.
+      if (device === "mobile" || device === "tablet") {
+        rotateOverlay.classList.add("force-preview");
+      } else {
+        rotateOverlay.classList.remove("force-preview");
+      }
     });
+  });
+
+  rotateOverlay.addEventListener("click", function () {
+    if (rotateOverlay.classList.contains("force-preview")) {
+      rotateOverlay.classList.remove("force-preview");
+    }
   });
 
   // Le changement de largeur du cadre simulé est animé en CSS

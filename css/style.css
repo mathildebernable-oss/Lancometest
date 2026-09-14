@@ -45,6 +45,15 @@ button { font-family: inherit; }
   text-align: center;
 }
 
+/* Forcé par la barre du haut quand l'aperçu Mobile/Tablette est
+   sélectionné (ce cadre simulé ne change pas la vraie taille du
+   viewport, donc la media query seule ne suffit pas pour le
+   prévisualiser) — cliquer dessus le referme. */
+.rotate-overlay.force-preview {
+  display: flex;
+  cursor: pointer;
+}
+
 @media (max-width: 900px) and (orientation: portrait) {
   .rotate-overlay { display: flex; }
 }

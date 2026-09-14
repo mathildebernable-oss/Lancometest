@@ -214,23 +214,20 @@ button { font-family: inherit; }
 }
 
 /* Courte "mise sous tension" façon hologramme, jouée une fois quand
-   le couloir devient entièrement interactif — volontairement bref
-   pour ne pas ralentir l'arrivée. */
+   le couloir devient entièrement interactif : rien, puis un fondu
+   doux qui clignote deux fois avant de se stabiliser — pas de
+   saccades, juste un léger battement. */
 @keyframes holo-flicker {
   0% { opacity: 0; }
-  8% { opacity: 0.85; }
-  16% { opacity: 0.1; }
-  27% { opacity: 1; }
-  36% { opacity: 0.15; }
-  50% { opacity: 1; }
-  60% { opacity: 0.4; }
-  74% { opacity: 1; }
-  84% { opacity: 0.55; }
+  22% { opacity: 0.85; }
+  38% { opacity: 0.15; }
+  58% { opacity: 0.9; }
+  74% { opacity: 0.25; }
   100% { opacity: 1; }
 }
 
 .hotspot.is-flickering {
-  animation: holo-flicker 0.45s steps(1, jump-end) both;
+  animation: holo-flicker 0.75s ease-in-out both;
 }
 
 .hotspot:hover .hotspot-frame,

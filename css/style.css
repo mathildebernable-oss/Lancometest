@@ -209,25 +209,8 @@ button { font-family: inherit; }
   color: var(--text-primary);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.6s ease;
   cursor: pointer;
-}
-
-/* Courte "mise sous tension" façon hologramme, jouée une fois quand
-   le couloir devient entièrement interactif : rien, puis un fondu
-   doux qui clignote deux fois avant de se stabiliser — pas de
-   saccades, juste un léger battement. */
-@keyframes holo-flicker {
-  0% { opacity: 0; }
-  22% { opacity: 0.85; }
-  38% { opacity: 0.15; }
-  58% { opacity: 0.9; }
-  74% { opacity: 0.25; }
-  100% { opacity: 1; }
-}
-
-.hotspot.is-flickering {
-  animation: holo-flicker 0.75s ease-in-out both;
 }
 
 .hotspot:hover .hotspot-frame,
@@ -598,5 +581,4 @@ button { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .scroll-hint { animation: none; }
   .page-frame, .detail-view, .hotspot, .hero-card, .lab-holo-label, .nav-chip-bracket { transition: none; }
-  .hotspot.is-flickering { animation: none; }
 }

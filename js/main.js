@@ -6,72 +6,126 @@
       hero: { top: "BIENVENUE DANS LE", title: "STAR SCULPT PORTAL", bottom: "DÉCOUVREZ LE NOUVEAU MASCARA TUBING" },
       scrollHint: "SCROLL POUR ENTRER",
       chooseRoom: "CHOISISSEZ VOTRE SALLE",
-      back: "RETOUR",
+      back: "RETOUR AU PORTAIL",
+      next: "SALLE SUIVANTE",
       nav: {
         lab: { title: "LE LABO", subtitle: "TECH & FORMULE" },
         vault: { title: "LE COFFRE", subtitle: "FORMATS & PACKAGING" },
         studio: { title: "LE STUDIO", subtitle: "LOOKS & INSPIRATIONS" },
         ritual: { title: "LE RITUEL", subtitle: "RETRAIT" },
       },
+      labHolo: {
+        volume: "VOLUME +150%",
+        wear: "TENUE 24H",
+        waterproof: "RÉSISTANT À L'EAU",
+        brush: "BROSSE DE PRÉCISION",
+        tube: "TECHNOLOGIE TUBING",
+        formula: "ACIDE HYALURONIQUE",
+      },
     },
     en: {
       hero: { top: "WELCOME TO THE", title: "STAR SCULPT PORTAL", bottom: "DISCOVER THE NEW TUBING MASCARA" },
       scrollHint: "SCROLL TO ENTER",
       chooseRoom: "CHOOSE YOUR ROOM",
-      back: "BACK",
+      back: "BACK TO PORTAL",
+      next: "NEXT ROOM",
       nav: {
         lab: { title: "THE LAB", subtitle: "TECH & FORMULA" },
         vault: { title: "THE VAULT", subtitle: "FORMATS & PACKAGES" },
         studio: { title: "THE STUDIO", subtitle: "LOOKS & INSPIRATIONS" },
         ritual: { title: "THE RITUAL", subtitle: "REMOVAL" },
       },
+      labHolo: {
+        volume: "VOLUME +150%",
+        wear: "24H WEAR",
+        waterproof: "WATERPROOF",
+        brush: "PRECISION BRUSH",
+        tube: "TUBING TECHNOLOGY",
+        formula: "HYALURONIC ACID",
+      },
     },
     it: {
       hero: { top: "BENVENUTA NEL", title: "STAR SCULPT PORTAL", bottom: "SCOPRI IL NUOVO MASCARA TUBING" },
       scrollHint: "SCORRI PER ENTRARE",
       chooseRoom: "SCEGLI LA TUA STANZA",
-      back: "INDIETRO",
+      back: "TORNA AL PORTALE",
+      next: "PROSSIMA STANZA",
       nav: {
         lab: { title: "IL LAB", subtitle: "TECNOLOGIA & FORMULA" },
         vault: { title: "IL VAULT", subtitle: "FORMATI & CONFEZIONI" },
         studio: { title: "LO STUDIO", subtitle: "LOOK & ISPIRAZIONI" },
         ritual: { title: "IL RITUALE", subtitle: "RIMOZIONE" },
       },
+      labHolo: {
+        volume: "VOLUME +150%",
+        wear: "TENUTA 24H",
+        waterproof: "RESISTENTE ALL'ACQUA",
+        brush: "SPAZZOLA DI PRECISIONE",
+        tube: "TECNOLOGIA TUBING",
+        formula: "ACIDO IALURONICO",
+      },
     },
     pl: {
       hero: { top: "WITAMY W", title: "STAR SCULPT PORTAL", bottom: "ODKRYJ NOWY TUSZ TUBING" },
       scrollHint: "PRZEWIŃ, ABY WEJŚĆ",
       chooseRoom: "WYBIERZ POKÓJ",
-      back: "WSTECZ",
+      back: "WRÓĆ DO PORTALU",
+      next: "NASTĘPNY POKÓJ",
       nav: {
         lab: { title: "LABORATORIUM", subtitle: "TECHNOLOGIA I FORMUŁA" },
         vault: { title: "SKARBIEC", subtitle: "FORMATY I OPAKOWANIA" },
         studio: { title: "STUDIO", subtitle: "STYLIZACJE I INSPIRACJE" },
         ritual: { title: "RYTUAŁ", subtitle: "ZDEJMOWANIE" },
       },
+      labHolo: {
+        volume: "OBJĘTOŚĆ +150%",
+        wear: "TRWAŁOŚĆ 24H",
+        waterproof: "WODOODPORNY",
+        brush: "SZCZOTECZKA PRECYZYJNA",
+        tube: "TECHNOLOGIA TUBING",
+        formula: "KWAS HIALURONOWY",
+      },
     },
     zh: {
       hero: { top: "欢迎来到", title: "STAR SCULPT PORTAL", bottom: "探索全新管状睫毛膏" },
       scrollHint: "滚动进入",
       chooseRoom: "选择您的房间",
-      back: "返回",
+      back: "返回大厅",
+      next: "下一个房间",
       nav: {
         lab: { title: "实验室", subtitle: "科技与配方" },
         vault: { title: "宝库", subtitle: "规格与包装" },
         studio: { title: "工作室", subtitle: "妆容与灵感" },
         ritual: { title: "仪式", subtitle: "卸除方法" },
       },
+      labHolo: {
+        volume: "浓密度 +150%",
+        wear: "24小时持久",
+        waterproof: "防水",
+        brush: "精准刷头",
+        tube: "管状技术",
+        formula: "透明质酸",
+      },
     },
     ja: {
       hero: { top: "ようこそ", title: "STAR SCULPT PORTAL", bottom: "新しいチュービングマスカラを発見" },
       scrollHint: "スクロールして入る",
       chooseRoom: "部屋を選んでください",
-      back: "戻る",
+      back: "ポータルに戻る",
+      next: "次の部屋へ",
       nav: {
         lab: { title: "ラボ", subtitle: "技術と処方" },
         vault: { title: "ヴォールト", subtitle: "フォーマットとパッケージ" },
         studio: { title: "スタジオ", subtitle: "ルックとインスピレーション" },
         ritual: { title: "リチュアル", subtitle: "取り外し方" },
+      },
+      labHolo: {
+        volume: "ボリューム +150%",
+        wear: "24時間キープ",
+        waterproof: "ウォータープルーフ",
+        brush: "精密ブラシ",
+        tube: "チュービング技術",
+        formula: "ヒアルロン酸",
       },
     },
   };
@@ -102,6 +156,13 @@
   var pageFrame = document.getElementById("page-frame");
   var i18nEls = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var detailViews = Array.prototype.slice.call(document.querySelectorAll(".detail-view"));
+  var labVideo = document.getElementById("detail-video-lab");
+  var labHoloLayer = document.getElementById("lab-holo-layer");
+
+  // Ordre des salles pour le bouton "Salle suivante". Seul Labo →
+  // Rituel est confirmé pour l'instant ; les deux autres complètent
+  // simplement la boucle en attendant une consigne précise.
+  var NEXT_ROOM = { lab: "ritual", ritual: "vault", vault: "studio", studio: "lab" };
 
   var rootStyle = getComputedStyle(document.documentElement);
   var scrubVh = parseFloat(rootStyle.getPropertyValue("--scrub-vh")) || 380;
@@ -160,30 +221,38 @@
   // -------------------------------------------------------------
   // Letterboxing adaptatif : cover en paysage (vidéo plein écran,
   // bord à bord) ; contain en portrait, pour ne jamais recadrer les
-  // boutons hors champ sur un format mobile étroit.
+  // repères hors champ sur un format mobile étroit. Réutilisé pour
+  // le calque des boutons du couloir ET celui des infos hologramme
+  // du Labo, chacun calé sur sa propre vidéo/conteneur.
   // -------------------------------------------------------------
-  function layoutHotspots() {
-    var vw = video.videoWidth;
-    var vh = video.videoHeight;
+  function fitOverlayToVideo(container, mediaEl, overlayEl) {
+    var vw = mediaEl.videoWidth;
+    var vh = mediaEl.videoHeight;
     if (!vw || !vh) return;
 
-    var stageW = stage.clientWidth;
-    var stageH = stage.clientHeight;
-    var stageAspect = stageW / stageH;
-    var useCover = stageAspect >= 1;
+    var boxW = container.clientWidth;
+    var boxH = container.clientHeight;
+    var useCover = boxW / boxH >= 1;
 
-    video.style.objectFit = useCover ? "cover" : "contain";
+    mediaEl.style.objectFit = useCover ? "cover" : "contain";
 
-    var scale = useCover ? Math.max(stageW / vw, stageH / vh) : Math.min(stageW / vw, stageH / vh);
+    var scale = useCover ? Math.max(boxW / vw, boxH / vh) : Math.min(boxW / vw, boxH / vh);
     var renderW = vw * scale;
     var renderH = vh * scale;
-    var offsetX = (stageW - renderW) / 2;
-    var offsetY = (stageH - renderH) / 2;
 
-    hotspotLayer.style.left = offsetX + "px";
-    hotspotLayer.style.top = offsetY + "px";
-    hotspotLayer.style.width = renderW + "px";
-    hotspotLayer.style.height = renderH + "px";
+    overlayEl.style.left = (boxW - renderW) / 2 + "px";
+    overlayEl.style.top = (boxH - renderH) / 2 + "px";
+    overlayEl.style.width = renderW + "px";
+    overlayEl.style.height = renderH + "px";
+  }
+
+  function layoutHotspots() {
+    fitOverlayToVideo(stage, video, hotspotLayer);
+  }
+
+  function layoutLabHolo() {
+    if (!labVideo || !labHoloLayer) return;
+    fitOverlayToVideo(labVideo.parentElement, labVideo, labHoloLayer);
   }
 
   var ticking = false;
@@ -279,8 +348,20 @@
     var v = view.querySelector(".detail-video");
     if (v) {
       v.currentTime = 0;
-      v.play().catch(function () {});
+      if (v.dataset.audio === "true") {
+        // Vidéo avec narration : on tente le son (autorisé ici car
+        // déclenché par un clic), avec repli muet si le navigateur
+        // refuse malgré tout.
+        v.muted = false;
+        v.play().catch(function () {
+          v.muted = true;
+          v.play().catch(function () {});
+        });
+      } else {
+        v.play().catch(function () {});
+      }
     }
+    if (key === "lab") layoutLabHolo();
     openDetail = key;
   }
 
@@ -293,7 +374,16 @@
   detailViews.forEach(function (view) {
     var closeBtn = view.querySelector(".detail-back");
     if (closeBtn) closeBtn.addEventListener("click", closeDetail);
+    var nextBtn = view.querySelector(".detail-next");
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        showDetail(NEXT_ROOM[nextBtn.getAttribute("data-next")]);
+      });
+    }
   });
+
+  if (labVideo) labVideo.addEventListener("loadedmetadata", layoutLabHolo);
+  window.addEventListener("resize", layoutLabHolo);
 
   window.addEventListener("keydown", function (e) {
     if (e.key === "Escape") closeDetail();

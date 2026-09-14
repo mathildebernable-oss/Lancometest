@@ -97,7 +97,7 @@
              visible de la vidéo (cover en paysage, contain en
              portrait pour ne jamais recadrer les boutons hors champ). -->
         <div class="hotspot-layer" id="hotspot-layer">
-          <button type="button" class="hotspot" data-key="lab" style="top:34%; left:24%;">
+          <button type="button" class="hotspot" data-key="lab" style="top:28%; left:24%;">
             <span class="hotspot-frame">
               <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
                 <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
@@ -115,7 +115,7 @@
             <span class="hotspot-dot"></span>
           </button>
 
-          <button type="button" class="hotspot" data-key="vault" style="top:46%; left:61%;">
+          <button type="button" class="hotspot" data-key="vault" style="top:40%; left:61%;">
             <span class="hotspot-frame">
               <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
                 <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
@@ -133,7 +133,7 @@
             <span class="hotspot-dot"></span>
           </button>
 
-          <button type="button" class="hotspot" data-key="studio" style="top:46%; left:85%;">
+          <button type="button" class="hotspot" data-key="studio" style="top:40%; left:85%;">
             <span class="hotspot-frame">
               <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
                 <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
@@ -151,7 +151,7 @@
             <span class="hotspot-dot"></span>
           </button>
 
-          <button type="button" class="hotspot" data-key="ritual" style="top:60%; left:50%;">
+          <button type="button" class="hotspot" data-key="ritual" style="top:54%; left:50%;">
             <span class="hotspot-frame">
               <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
                 <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
@@ -186,12 +186,28 @@
 
     <!-- ============================================================
          VUES DÉTAIL — une vidéo d'explication par bouton du couloir.
-         `assets/video.mp4` sert de gabarit tant que les 4 vraies
-         vidéos ne sont pas fournies : à remplacer par section.
+         "Le Labo" a sa vraie vidéo (avec narration) + lecture des
+         infos produit en hologramme, calées sur les icônes du
+         panneau filmé. Les 3 autres réutilisent `assets/video.mp4`
+         en gabarit muet tant que leurs vidéos définitives ne sont
+         pas fournies.
     ============================================================ -->
     <div class="detail-view" id="detail-lab" data-key="lab">
-      <video class="detail-video" src="assets/video.mp4" muted loop playsinline></video>
+      <video class="detail-video" id="detail-video-lab" src="assets/lab.mp4" data-audio="true" playsinline></video>
       <div class="detail-scrim"></div>
+
+      <!-- Repositionné en JS pour matcher exactement le rectangle
+           visible de la vidéo (comme le calque des boutons du
+           couloir), calé sur les icônes déjà présentes dans le film. -->
+      <div class="lab-holo-layer" id="lab-holo-layer">
+        <span class="lab-holo-label" style="top:40%; left:41.8%;" data-i18n="labHolo.volume">VOLUME +150%</span>
+        <span class="lab-holo-label" style="top:52.5%; left:41.8%;" data-i18n="labHolo.wear">TENUE 24H</span>
+        <span class="lab-holo-label" style="top:65%; left:41.8%;" data-i18n="labHolo.waterproof">RÉSISTANT À L'EAU</span>
+        <span class="lab-holo-label" style="top:37%; left:72.5%;" data-i18n="labHolo.brush">BROSSE DE PRÉCISION</span>
+        <span class="lab-holo-label" style="top:54.5%; left:72.5%;" data-i18n="labHolo.tube">TECHNOLOGIE TUBING</span>
+        <span class="lab-holo-label" style="top:70.5%; left:72.5%;" data-i18n="labHolo.formula">ACIDE HYALURONIQUE</span>
+      </div>
+
       <div class="detail-header">
         <div class="hero-flanked">
           <span class="flank-dot"></span><span class="flank-rule"></span>
@@ -202,7 +218,11 @@
       </div>
       <button type="button" class="detail-back" data-close="lab">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span data-i18n="back">RETOUR</span>
+        <span data-i18n="back">RETOUR AU PORTAIL</span>
+      </button>
+      <button type="button" class="detail-next" data-next="lab">
+        <span data-i18n="next">SALLE SUIVANTE</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
@@ -219,7 +239,11 @@
       </div>
       <button type="button" class="detail-back" data-close="vault">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span data-i18n="back">RETOUR</span>
+        <span data-i18n="back">RETOUR AU PORTAIL</span>
+      </button>
+      <button type="button" class="detail-next" data-next="vault">
+        <span data-i18n="next">SALLE SUIVANTE</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
@@ -236,7 +260,11 @@
       </div>
       <button type="button" class="detail-back" data-close="studio">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span data-i18n="back">RETOUR</span>
+        <span data-i18n="back">RETOUR AU PORTAIL</span>
+      </button>
+      <button type="button" class="detail-next" data-next="studio">
+        <span data-i18n="next">SALLE SUIVANTE</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 
@@ -253,7 +281,11 @@
       </div>
       <button type="button" class="detail-back" data-close="ritual">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-        <span data-i18n="back">RETOUR</span>
+        <span data-i18n="back">RETOUR AU PORTAIL</span>
+      </button>
+      <button type="button" class="detail-next" data-next="ritual">
+        <span data-i18n="next">SALLE SUIVANTE</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
 

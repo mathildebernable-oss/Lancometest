@@ -49,73 +49,113 @@ button { font-family: inherit; }
 
 .toolbar > * { pointer-events: auto; }
 
+/* Même cadre HUD (bracket blanc + halo rose) que les boutons du
+   couloir et les puces Retour/Salle suivante, pour rester raccord
+   avec le reste du site. */
+.toolbar-bracket {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--frame-color);
+  filter: drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 10px var(--accent));
+  pointer-events: none;
+}
+
 .toolbar-select-wrap {
   position: relative;
   display: flex;
   align-items: center;
+  min-height: 36px;
 }
 
 .toolbar-select {
+  position: relative;
+  z-index: 1;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(20, 4, 6, 0.55);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 999px;
+  background: transparent;
+  border: none;
   color: var(--text-primary);
+  text-shadow: var(--text-glow);
   font-family: var(--font);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 9px 30px 9px 16px;
+  letter-spacing: 0.06em;
+  padding: 11px 30px 11px 18px;
   cursor: pointer;
 }
 
-.toolbar-select:hover,
-.toolbar-select:focus-visible { border-color: var(--accent); }
+.toolbar-select option {
+  background: #1a1014;
+  color: #ffffff;
+}
 
 .toolbar-select-chevron {
   position: absolute;
-  right: 14px;
+  z-index: 1;
+  right: 15px;
   color: var(--text-secondary);
   pointer-events: none;
 }
 
 .toolbar-devices {
+  position: relative;
   display: flex;
-  gap: 6px;
-  background: rgba(20, 4, 6, 0.55);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 999px;
-  padding: 4px;
+  min-height: 36px;
+  padding: 0 4px;
 }
 
 .toolbar-device {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 6px;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   border: none;
-  border-radius: 999px;
-  padding: 7px 14px;
+  padding: 10px 16px;
   font-family: var(--font);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: color 0.15s;
 }
 
-.toolbar-device:hover { background: rgba(255, 255, 255, 0.1); }
+.toolbar-device + .toolbar-device {
+  position: relative;
+}
+
+.toolbar-device + .toolbar-device::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 22%;
+  bottom: 22%;
+  width: 1px;
+  background: rgba(252, 131, 133, 0.35);
+}
+
+.toolbar-device:hover { color: var(--text-primary); }
 
 .toolbar-device.is-active {
-  background: #ffffff;
-  color: #1a1014;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
 }
 
-.toolbar-device.is-active:hover { background: #ffffff; }
+.toolbar-device.is-active::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 3px;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
 
 /* ---------------------------------------------------------------- */
 /* PAGE FRAME — simule le format choisi (tablette / mobile = cadre  */

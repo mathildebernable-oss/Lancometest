@@ -1,0 +1,267 @@
+:root {
+  --accent: #fc8385;
+  --panel-bg: rgba(20, 4, 6, 0.35);
+  --panel-border: rgba(252, 131, 133, 0.9);
+  --glow: 0 0 12px rgba(252, 131, 133, 0.55), 0 0 32px rgba(252, 131, 133, 0.25);
+  --text-glow: 0 0 6px rgba(252, 131, 133, 0.9), 0 0 16px rgba(252, 131, 133, 0.6), 0 0 30px rgba(252, 131, 133, 0.35);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 235, 238, 0.85);
+  --font: 'Orbitron', sans-serif;
+
+  /* Longueur de scroll (en vh) dédiée au scrub de la vidéo, puis
+     palier de repos où la dernière frame reste fixe et interactive
+     avant de libérer le scroll vers les sections suivantes. */
+  --scrub-vh: 380;
+  --rest-vh: 60;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0d0708;
+  color: var(--text-primary);
+  font-family: var(--font);
+  overscroll-behavior-y: none;
+}
+
+/* ---------------------------------------------------------------- */
+/* INTRO / SCRUB                                                    */
+/* ---------------------------------------------------------------- */
+
+.intro {
+  position: relative;
+  height: calc((var(--scrub-vh) + var(--rest-vh) + 100) * 1vh);
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #0d0708;
+}
+
+#scrub-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #0d0708;
+}
+
+/* Repositionné en JS pour épouser exactement le rectangle visible
+   de la vidéo (letterboxing dû à object-fit: contain), afin que les
+   pourcentages top/left des hotspots restent alignés sur l'image
+   à n'importe quelle taille d'écran. */
+.hotspot-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hotspot {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  text-decoration: none;
+  color: var(--text-primary);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
+}
+
+.hotspot:hover .hotspot-frame,
+.hotspot:focus-visible .hotspot-frame {
+  filter: brightness(1.25);
+}
+
+.hotspot:hover .hotspot-bracket,
+.hotspot:focus-visible .hotspot-bracket {
+  color: #ffffff;
+}
+
+.hotspot-frame {
+  position: relative;
+  width: clamp(120px, 15vw, 260px);
+  aspect-ratio: 1618 / 530;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+}
+
+.hotspot-bracket {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent)) drop-shadow(0 0 16px var(--accent)) drop-shadow(0 0 32px var(--accent));
+  transition: color 0.2s ease-out;
+}
+
+.hotspot-title {
+  position: relative;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
+  font-size: clamp(10px, 1.2vw, 16px);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.hotspot-subtitle {
+  position: relative;
+  color: var(--text-secondary);
+  font-size: clamp(6px, 0.62vw, 8px);
+  letter-spacing: 0.08em;
+  margin-top: 3px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hotspot-pin {
+  width: 1.5px;
+  height: 22px;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.hotspot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: clamp(20px, 5vh, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 235, 238, 0.85);
+  text-shadow: var(--text-glow);
+  font-size: clamp(9px, 1.1vw, 11px);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  pointer-events: none;
+  animation: hint-bob 2s ease-in-out infinite;
+}
+
+@keyframes hint-bob {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 6px); }
+}
+
+/* ---------------------------------------------------------------- */
+/* DESTINATIONS                                                     */
+/* ---------------------------------------------------------------- */
+
+.destinations {
+  background: linear-gradient(180deg, #150a0c 0%, #0d0708 100%);
+}
+
+.destination {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12vh 8vw;
+  border-bottom: 1px solid rgba(252, 131, 133, 0.15);
+}
+
+.destination-heading {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  width: 100%;
+  max-width: 560px;
+}
+
+.destination-heading .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent), 0 0 12px var(--accent);
+  flex-shrink: 0;
+}
+
+.destination-heading .rule {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
+
+.destination-heading h2 {
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(22px, 4vw, 40px);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
+}
+
+.destination-subtitle {
+  margin: 18px 0 0;
+  font-size: clamp(10px, 1.3vw, 13px);
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.destination-text {
+  margin: 20px 0 0;
+  max-width: 480px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(14px, 1.6vw, 17px);
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.back-link {
+  margin-top: 32px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  border: 1px solid rgba(252, 131, 133, 0.5);
+  border-radius: 4px;
+  padding: 10px 20px;
+  transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.back-link:hover,
+.back-link:focus-visible {
+  color: var(--text-primary);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+@media (max-width: 700px) {
+  .destination { padding: 10vh 6vw; }
+}

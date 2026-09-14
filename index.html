@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lancôme — Star Sculpt Portal</title>
+<meta name="description" content="Entrez dans le Star Sculpt Portal Lancôme : faites défiler pour ouvrir la porte et découvrir le nouveau mascara tubing." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       INTRO — vidéo pilotée par le scroll (0% → 100% = ouverture
+       de la porte). Reste "collée" (position: sticky) pendant toute
+       la durée du scrub + une phase de repos où la dernière frame
+       (le couloir) sert de landing page avec les boutons actifs.
+  ============================================================ -->
+  <section class="intro" id="intro">
+    <div class="stage" id="stage">
+
+      <video
+        id="scrub-video"
+        src="assets/video.mp4"
+        poster="assets/poster.jpg"
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+
+      <!-- Repositionné en JS pour matcher exactement le rectangle
+           visible de la vidéo (letterboxing object-fit: contain) -->
+      <div class="hotspot-layer" id="hotspot-layer">
+        <a href="#lab" class="hotspot" data-key="lab" style="top:28%; left:16%;">
+          <span class="hotspot-frame">
+            <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
+              <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M124 368 L124 231 Q124 210 140 192 L176 156 Q186 146 204 146 L480 146 L503 169 L1329 169 L1357 145 L1627 145 Q1653 145 1671 164 L1704 198 Q1714 209 1714 229 L1714 368 M1714 397 L1714 565 Q1714 585 1703 598 L1668 633 Q1654 647 1635 647 L1358 647 L1331 622 L504 622 L480 647 L198 647 Q181 647 169 636 L140 608 Q124 592 124 568 L124 397" />
+                <path d="M324 191 L211 191 L164 232 L164 299" />
+                <path d="M1512 191 L1622 191 L1668 232 L1668 299" />
+                <path d="M324 615 L211 615 L164 572 L164 506" />
+                <path d="M1512 615 L1622 615 L1668 572 L1668 506" />
+              </g>
+            </svg>
+            <span class="hotspot-title">LE LABO</span>
+            <span class="hotspot-subtitle">TECH &amp; FORMULE</span>
+          </span>
+          <span class="hotspot-pin"></span>
+          <span class="hotspot-dot"></span>
+        </a>
+
+        <a href="#coffre" class="hotspot" data-key="vault" style="top:24%; left:48%;">
+          <span class="hotspot-frame">
+            <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
+              <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M124 368 L124 231 Q124 210 140 192 L176 156 Q186 146 204 146 L480 146 L503 169 L1329 169 L1357 145 L1627 145 Q1653 145 1671 164 L1704 198 Q1714 209 1714 229 L1714 368 M1714 397 L1714 565 Q1714 585 1703 598 L1668 633 Q1654 647 1635 647 L1358 647 L1331 622 L504 622 L480 647 L198 647 Q181 647 169 636 L140 608 Q124 592 124 568 L124 397" />
+                <path d="M324 191 L211 191 L164 232 L164 299" />
+                <path d="M1512 191 L1622 191 L1668 232 L1668 299" />
+                <path d="M324 615 L211 615 L164 572 L164 506" />
+                <path d="M1512 615 L1622 615 L1668 572 L1668 506" />
+              </g>
+            </svg>
+            <span class="hotspot-title">LE COFFRE</span>
+            <span class="hotspot-subtitle">FORMATS &amp; PACKAGING</span>
+          </span>
+          <span class="hotspot-pin"></span>
+          <span class="hotspot-dot"></span>
+        </a>
+
+        <a href="#studio" class="hotspot" data-key="studio" style="top:34%; left:80%;">
+          <span class="hotspot-frame">
+            <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
+              <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M124 368 L124 231 Q124 210 140 192 L176 156 Q186 146 204 146 L480 146 L503 169 L1329 169 L1357 145 L1627 145 Q1653 145 1671 164 L1704 198 Q1714 209 1714 229 L1714 368 M1714 397 L1714 565 Q1714 585 1703 598 L1668 633 Q1654 647 1635 647 L1358 647 L1331 622 L504 622 L480 647 L198 647 Q181 647 169 636 L140 608 Q124 592 124 568 L124 397" />
+                <path d="M324 191 L211 191 L164 232 L164 299" />
+                <path d="M1512 191 L1622 191 L1668 232 L1668 299" />
+                <path d="M324 615 L211 615 L164 572 L164 506" />
+                <path d="M1512 615 L1622 615 L1668 572 L1668 506" />
+              </g>
+            </svg>
+            <span class="hotspot-title">LE STUDIO</span>
+            <span class="hotspot-subtitle">LOOKS &amp; INSPIRATIONS</span>
+          </span>
+          <span class="hotspot-pin"></span>
+          <span class="hotspot-dot"></span>
+        </a>
+
+        <a href="#rituel" class="hotspot" data-key="ritual" style="top:68%; left:55%;">
+          <span class="hotspot-frame">
+            <svg class="hotspot-bracket" viewBox="110 131 1618 530" preserveAspectRatio="none">
+              <g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M124 368 L124 231 Q124 210 140 192 L176 156 Q186 146 204 146 L480 146 L503 169 L1329 169 L1357 145 L1627 145 Q1653 145 1671 164 L1704 198 Q1714 209 1714 229 L1714 368 M1714 397 L1714 565 Q1714 585 1703 598 L1668 633 Q1654 647 1635 647 L1358 647 L1331 622 L504 622 L480 647 L198 647 Q181 647 169 636 L140 608 Q124 592 124 568 L124 397" />
+                <path d="M324 191 L211 191 L164 232 L164 299" />
+                <path d="M1512 191 L1622 191 L1668 232 L1668 299" />
+                <path d="M324 615 L211 615 L164 572 L164 506" />
+                <path d="M1512 615 L1622 615 L1668 572 L1668 506" />
+              </g>
+            </svg>
+            <span class="hotspot-title">LE RITUEL</span>
+            <span class="hotspot-subtitle">RETRAIT</span>
+          </span>
+          <span class="hotspot-pin"></span>
+          <span class="hotspot-dot"></span>
+        </a>
+      </div>
+
+      <div class="scroll-hint" id="scroll-hint">
+        <span>SCROLL POUR ENTRER</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DESTINATIONS — une section par bouton du couloir final.
+  ============================================================ -->
+  <main class="destinations">
+
+    <section class="destination" id="lab">
+      <div class="destination-heading">
+        <span class="dot"></span><span class="rule"></span>
+        <h2>Le Labo</h2>
+        <span class="rule"></span><span class="dot"></span>
+      </div>
+      <p class="destination-subtitle">Tech &amp; formule</p>
+      <p class="destination-text">Découvrez la technologie Tubing qui sculpte et protège vos cils pendant 24h, résistante à l'eau et sans bavure.</p>
+      <a class="back-link" href="#intro">↑ Retour au portail</a>
+    </section>
+
+    <section class="destination" id="coffre">
+      <div class="destination-heading">
+        <span class="dot"></span><span class="rule"></span>
+        <h2>Le Coffre</h2>
+        <span class="rule"></span><span class="dot"></span>
+      </div>
+      <p class="destination-subtitle">Formats &amp; packaging</p>
+      <p class="destination-text">Explorez les formats et écrins Star Sculpt, pensés pour accompagner chaque geste de votre rituel beauté.</p>
+      <a class="back-link" href="#intro">↑ Retour au portail</a>
+    </section>
+
+    <section class="destination" id="studio">
+      <div class="destination-heading">
+        <span class="dot"></span><span class="rule"></span>
+        <h2>Le Studio</h2>
+        <span class="rule"></span><span class="dot"></span>
+      </div>
+      <p class="destination-subtitle">Looks &amp; inspirations</p>
+      <p class="destination-text">Inspirez-vous des looks Star Sculpt imaginés par nos experts maquillage, pour un regard sculpté en toute occasion.</p>
+      <a class="back-link" href="#intro">↑ Retour au portail</a>
+    </section>
+
+    <section class="destination" id="rituel">
+      <div class="destination-heading">
+        <span class="dot"></span><span class="rule"></span>
+        <h2>Le Rituel</h2>
+        <span class="rule"></span><span class="dot"></span>
+      </div>
+      <p class="destination-subtitle">Retrait</p>
+      <p class="destination-text">Le manchon Tubing se retire en douceur à l'eau chaude, sans démaquillant, en un geste simple et rapide.</p>
+      <a class="back-link" href="#intro">↑ Retour au portail</a>
+    </section>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

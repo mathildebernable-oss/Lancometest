@@ -388,6 +388,6 @@
     if (e.key === "Escape") closeDetail();
   });
 
-  applyLanguage("fr");
+  applyLanguage(langSelect.value);
   update();
 })();

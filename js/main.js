@@ -313,6 +313,17 @@
 
   video.addEventListener("loadedmetadata", function () {
     video.currentTime = 0.001;
+    // Sur iOS Safari, une vidéo pilotée uniquement via `currentTime`
+    // (jamais lancée avec `play()`) peut ne peindre aucune image et
+    // rester noire tant qu'elle n'a pas été "amorcée" une première
+    // fois. Lecture muette immédiatement interrompue, invisible pour
+    // l'utilisateur, qui force le décodage de la première image.
+    var playAttempt = video.play();
+    if (playAttempt && typeof playAttempt.then === "function") {
+      playAttempt.then(function () { video.pause(); }).catch(function () {});
+    } else {
+      video.pause();
+    }
     layoutHotspots();
     update();
   });

@@ -6,6 +6,7 @@
       hero: { top: "BIENVENUE DANS LE", title: "STAR SCULPT PORTAL", bottom: "DÉCOUVREZ LE NOUVEAU MASCARA TUBING" },
       scrollHint: "SCROLL POUR ENTRER",
       chooseRoom: "CHOISISSEZ VOTRE SALLE",
+      rotate: "TOURNEZ VOTRE TÉLÉPHONE POUR ENTRER",
       back: "RETOUR AU PORTAIL",
       next: "SALLE SUIVANTE",
       nav: {
@@ -27,6 +28,7 @@
       hero: { top: "WELCOME TO THE", title: "STAR SCULPT PORTAL", bottom: "DISCOVER THE NEW TUBING MASCARA" },
       scrollHint: "SCROLL TO ENTER",
       chooseRoom: "CHOOSE YOUR ROOM",
+      rotate: "TURN YOUR PHONE TO ENTER",
       back: "BACK TO PORTAL",
       next: "NEXT ROOM",
       nav: {
@@ -48,6 +50,7 @@
       hero: { top: "BENVENUTA NEL", title: "STAR SCULPT PORTAL", bottom: "SCOPRI IL NUOVO MASCARA TUBING" },
       scrollHint: "SCORRI PER ENTRARE",
       chooseRoom: "SCEGLI LA TUA STANZA",
+      rotate: "RUOTA IL TELEFONO PER ENTRARE",
       back: "TORNA AL PORTALE",
       next: "PROSSIMA STANZA",
       nav: {
@@ -69,6 +72,7 @@
       hero: { top: "WITAMY W", title: "STAR SCULPT PORTAL", bottom: "ODKRYJ NOWY TUSZ TUBING" },
       scrollHint: "PRZEWIŃ, ABY WEJŚĆ",
       chooseRoom: "WYBIERZ POKÓJ",
+      rotate: "OBRÓĆ TELEFON, ABY WEJŚĆ",
       back: "WRÓĆ DO PORTALU",
       next: "NASTĘPNY POKÓJ",
       nav: {
@@ -90,6 +94,7 @@
       hero: { top: "欢迎来到", title: "STAR SCULPT PORTAL", bottom: "探索全新管状睫毛膏" },
       scrollHint: "滚动进入",
       chooseRoom: "选择您的房间",
+      rotate: "请将手机横屏以进入",
       back: "返回大厅",
       next: "下一个房间",
       nav: {
@@ -111,6 +116,7 @@
       hero: { top: "ようこそ", title: "STAR SCULPT PORTAL", bottom: "新しいチュービングマスカラを発見" },
       scrollHint: "スクロールして入る",
       chooseRoom: "部屋を選んでください",
+      rotate: "スマートフォンを横向きにしてください",
       back: "ポータルに戻る",
       next: "次の部屋へ",
       nav: {
@@ -152,8 +158,6 @@
   var heroTitleText = document.getElementById("hero-title-text");
   var heroBottom = document.getElementById("hero-bottom");
   var langSelect = document.getElementById("lang-select");
-  var deviceButtons = Array.prototype.slice.call(document.querySelectorAll(".toolbar-device"));
-  var pageFrame = document.getElementById("page-frame");
   var i18nEls = Array.prototype.slice.call(document.querySelectorAll("[data-i18n]"));
   var detailViews = Array.prototype.slice.call(document.querySelectorAll(".detail-view"));
   var labVideo = document.getElementById("detail-video-lab");
@@ -196,26 +200,6 @@
 
   langSelect.addEventListener("change", function () {
     applyLanguage(langSelect.value);
-  });
-
-  // -------------------------------------------------------------
-  // Format d'aperçu (desktop / tablette / mobile)
-  // -------------------------------------------------------------
-  deviceButtons.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      deviceButtons.forEach(function (b) { b.classList.remove("is-active"); });
-      btn.classList.add("is-active");
-      pageFrame.setAttribute("data-device", btn.getAttribute("data-device"));
-      layoutHotspots();
-    });
-  });
-
-  // Le changement de largeur du cadre simulé est animé en CSS
-  // (transition sur max-width) : il faut recalculer une fois la
-  // transition terminée, sinon le calque des boutons reste calé sur
-  // l'ancienne largeur.
-  pageFrame.addEventListener("transitionend", function (e) {
-    if (e.propertyName === "max-width") layoutHotspots();
   });
 
   // -------------------------------------------------------------

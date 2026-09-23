@@ -28,7 +28,56 @@ html, body {
 button { font-family: inherit; }
 
 /* ---------------------------------------------------------------- */
-/* TOOLBAR — langue + format d'aperçu, toujours ancrée au viewport  */
+/* ROTATE OVERLAY — mobile/tablette en portrait uniquement           */
+/* ---------------------------------------------------------------- */
+
+.rotate-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #0d0708;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 0 12vw;
+  text-align: center;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .rotate-overlay { display: flex; }
+}
+
+.rotate-icon {
+  color: var(--frame-color);
+  filter: drop-shadow(0 0 10px var(--accent));
+  animation: rotate-phone 2.4s ease-in-out infinite;
+}
+
+@keyframes rotate-phone {
+  0%, 15% { transform: rotate(0deg); }
+  45%, 65% { transform: rotate(-90deg); }
+  85%, 100% { transform: rotate(0deg); }
+}
+
+.rotate-text {
+  margin: 0;
+  max-width: 320px;
+  color: var(--text-primary);
+  text-shadow: var(--text-glow);
+  font-size: clamp(13px, 4vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotate-icon { animation: none; }
+}
+
+/* ---------------------------------------------------------------- */
+/* TOOLBAR — langue, toujours ancrée au viewport                    */
 /* ---------------------------------------------------------------- */
 
 .toolbar {
@@ -99,102 +148,6 @@ button { font-family: inherit; }
   right: 15px;
   color: var(--text-secondary);
   pointer-events: none;
-}
-
-.toolbar-devices {
-  position: relative;
-  display: flex;
-  min-height: 36px;
-  padding: 0 4px;
-}
-
-.toolbar-device {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  color: var(--text-secondary);
-  border: none;
-  outline: none;
-  padding: 10px 16px;
-  font-family: var(--font);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: color 0.15s;
-}
-
-.toolbar-device + .toolbar-device {
-  position: relative;
-}
-
-.toolbar-device + .toolbar-device::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 22%;
-  bottom: 22%;
-  width: 1px;
-  background: rgba(252, 131, 133, 0.35);
-}
-
-.toolbar-device:hover { color: var(--text-primary); }
-
-.toolbar-device.is-active {
-  color: var(--text-primary);
-  text-shadow: var(--text-glow);
-}
-
-.toolbar-device.is-active::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 3px;
-  height: 1px;
-  background: var(--accent);
-  box-shadow: 0 0 4px var(--accent);
-}
-
-/* ---------------------------------------------------------------- */
-/* PAGE FRAME — simule le format choisi (tablette / mobile = cadre  */
-/* centré ; desktop = plein écran réel).                            */
-/* ---------------------------------------------------------------- */
-
-.page-frame {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
-  transition: max-width 0.35s ease;
-}
-
-.page-frame[data-device="tablet"] {
-  max-width: 834px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 40px 100px rgba(0, 0, 0, 0.6);
-}
-
-.page-frame[data-device="mobile"] {
-  max-width: 390px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18), 0 40px 100px rgba(0, 0, 0, 0.6);
-}
-
-/* .detail-view est `position: fixed` (pour rester pinné au viewport
-   pendant le scroll) donc en dehors du flux de .page-frame : on lui
-   applique la même largeur simulée ici, en le recentrant avec margin
-   auto. .hero-card, lui, vit maintenant dans .video-overlay (dans le
-   flux normal de .stage), donc hérite déjà de la largeur simulée. */
-.page-frame[data-device="tablet"] .detail-view {
-  max-width: 834px;
-  margin: 0 auto;
-}
-
-.page-frame[data-device="mobile"] .detail-view {
-  max-width: 390px;
-  margin: 0 auto;
 }
 
 /* ---------------------------------------------------------------- */
@@ -643,5 +596,5 @@ button { font-family: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-hint { animation: none; }
-  .page-frame, .detail-view, .hotspot, .hero-card, .lab-holo-label, .nav-chip-bracket { transition: none; }
+  .detail-view, .hotspot, .hero-card, .lab-holo-label, .nav-chip-bracket { transition: none; }
 }
